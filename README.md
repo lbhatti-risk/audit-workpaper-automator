@@ -59,6 +59,22 @@ Two sample workpapers are included, both generated from fully synthetic data:
 
 Each workpaper includes all five sections per control tab plus three Power BI flat-table sheets (`PBI_Controls`, `PBI_Deficiencies`, `PBI_Evidence`).
 
+## Repository structure
+
+```
+├── main.py                  # Interactive CLI wizard
+├── generate_sample.py       # Generates sample workpapers with synthetic data (no API key needed)
+├── requirements.txt
+├── src/
+│   ├── controls.py          # Pre-written tailored procedures for all 8 ITGC controls
+│   ├── analyzer.py          # Claude API integration — evidence analysis and gap analysis
+│   ├── workpaper.py         # Excel workpaper generator (formatted tabs + Power BI sheets)
+│   └── models.py            # Data models (ITGCControl, EvidenceItem, ControlDeficiency)
+├── sample_output/           # Pre-generated synthetic workpapers (downloadable without running the tool)
+├── docs/                    # Dashboard preview image
+└── media/                   # CLI screenshot and other visuals
+```
+
 ## Supported ITGC Controls
 
 | # | Control |
