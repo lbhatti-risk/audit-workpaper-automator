@@ -1,4 +1,6 @@
-src/__pycache__/
-__pycache__/
+**/__pycache__/
 .env
-*.xlsx
+# Generated workpapers (contain client data — never commit)
+*_ITGC_Workpaper_*.xlsx
+# Allow the synthetic sample
+!sample_output/*.xlsx

@@ -6,6 +6,7 @@ from openpyxl.styles import (
     Alignment, Border, Font, PatternFill, Side
 )
 from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.table import Table, TableStyleInfo
 
 from .models import ITGCControl
 
@@ -231,6 +232,123 @@ def _build_control_sheet(wb: Workbook, ctrl: ITGCControl, cd_offset: int) -> int
     return len(ctrl.deficiencies)
 
 
+# ── Power BI flat-table export ───────────────────────────────────────────────
+
+def _pbi_table(ws, headers: list[str], rows: list[list], table_name: str):
+    """Write a flat Excel Table that Power BI can import directly."""
+    for col, h in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col, value=h)
+        cell.font = Font(bold=True, size=10, name="Calibri")
+
+    for row_idx, row_data in enumerate(rows, 2):
+        for col_idx, val in enumerate(row_data, 1):
+            ws.cell(row=row_idx, column=col_idx, value=val)
+
+    if rows:
+        last_col = get_column_letter(len(headers))
+        last_row = len(rows) + 1
+        tbl = Table(displayName=table_name, ref=f"A1:{last_col}{last_row}")
+        tbl.tableStyleInfo = TableStyleInfo(
+            name="TableStyleMedium2",
+            showFirstColumn=False,
+            showLastColumn=False,
+            showRowStripes=True,
+            showColumnStripes=False,
+        )
+        ws.add_table(tbl)
+
+    for col_cells in ws.columns:
+        max_len = max((len(str(c.value or "")) for c in col_cells), default=10)
+        ws.column_dimensions[get_column_letter(col_cells[0].column)].width = min(max_len + 3, 70)
+
+
+def _build_pbi_export(wb: Workbook, controls: List[ITGCControl]):
+    """
+    Three hidden-ish sheets that Power BI can connect to for dashboards.
+
+    PBI_Controls    — one row per control (risk heatmap source)
+    PBI_Deficiencies — one row per CD/W (deficiency tracker)
+    PBI_Evidence    — one row per evidence item (evidence coverage view)
+    """
+    # ── PBI_Controls ────────────────────────────────────────────────────────
+    ws_ctrl = wb.create_sheet("PBI_Controls")
+    ctrl_headers = [
+        "Client", "Application", "Audit_Period", "Control_Name", "Control_Abbrev",
+        "D_I_Result", "Evidence_Count", "CDW_Count", "Conclusion",
+    ]
+    ctrl_rows = []
+    cd_offset = 0
+    for ctrl in controls:
+        cd_count = len(ctrl.deficiencies)
+        ctrl_rows.append([
+            ctrl.client_name,
+            ctrl.application,
+            ctrl.audit_period,
+            ctrl.name,
+            ctrl.abbrev,
+            "Ineffective" if cd_count else "Effective",
+            len(ctrl.evidence_items),
+            cd_count,
+            ctrl.conclusion,
+        ])
+        cd_offset += cd_count
+    _pbi_table(ws_ctrl, ctrl_headers, ctrl_rows, "tbl_Controls")
+
+    # ── PBI_Deficiencies ────────────────────────────────────────────────────
+    ws_def = wb.create_sheet("PBI_Deficiencies")
+    def_headers = [
+        "Client", "Application", "Audit_Period", "Control_Name", "Control_Abbrev",
+        "CDW_Ref", "Procedure_Number", "Description", "Severity", "Management_Response",
+    ]
+    def_rows = []
+    running_cd = 0
+    for ctrl in controls:
+        for d in ctrl.deficiencies:
+            running_cd += 1
+            def_rows.append([
+                ctrl.client_name,
+                ctrl.application,
+                ctrl.audit_period,
+                ctrl.name,
+                ctrl.abbrev,
+                f"CD/W-{running_cd}",
+                d.procedure_number,
+                d.description,
+                d.severity,
+                d.management_response,
+            ])
+    if not def_rows:
+        def_rows = [["No deficiencies identified"] + [""] * (len(def_headers) - 1)]
+    _pbi_table(ws_def, def_headers, def_rows, "tbl_Deficiencies")
+
+    # ── PBI_Evidence ────────────────────────────────────────────────────────
+    ws_ev = wb.create_sheet("PBI_Evidence")
+    ev_headers = [
+        "Client", "Application", "Audit_Period", "Control_Name", "Control_Abbrev",
+        "Evidence_Number", "Filename", "File_Type", "Description",
+        "Aligns_With_Process", "Concerns",
+    ]
+    ev_rows = []
+    for ctrl in controls:
+        for ev in sorted(ctrl.evidence_items, key=lambda e: e.order):
+            ev_rows.append([
+                ctrl.client_name,
+                ctrl.application,
+                ctrl.audit_period,
+                ctrl.name,
+                ctrl.abbrev,
+                ev.order,
+                ev.filename,
+                ev.file_type,
+                ev.description,
+                ev.aligns_with_process,
+                ev.concerns,
+            ])
+    if not ev_rows:
+        ev_rows = [["No evidence recorded"] + [""] * (len(ev_headers) - 1)]
+    _pbi_table(ws_ev, ev_headers, ev_rows, "tbl_Evidence")
+
+
 # ── Public entry point ───────────────────────────────────────────────────────
 
 def generate_workpaper(controls: List[ITGCControl], output_path: str):
@@ -243,5 +361,7 @@ def generate_workpaper(controls: List[ITGCControl], output_path: str):
     for ctrl in controls:
         count = _build_control_sheet(wb, ctrl, cd_offset)
         cd_offset += count
+
+    _build_pbi_export(wb, controls)
 
     wb.save(output_path)

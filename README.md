@@ -16,6 +16,10 @@ For each ITGC control you review, the tool will:
    - Section D: Control Deficiencies (CD/W references)
    - Section E: Conclusion
 
+## Sample output
+
+A sample workpaper generated from **fully synthetic data** (Acme Corporation / Oracle EBS) is in [`sample_output/`](sample_output/). Open it to see what the generated workpaper looks like before running the tool.
+
 ## Supported ITGC Controls
 
 | # | Control |
@@ -36,6 +40,18 @@ For each ITGC control you review, the tool will:
 - **Documents**: DOCX, DOC
 - **PDF**: PDF
 - **Plain text**: TXT and other text files
+
+## Power BI Integration
+
+Every generated workpaper includes three flat-table sheets (`PBI_Controls`, `PBI_Deficiencies`, `PBI_Evidence`) formatted as native Excel Tables. Point Power BI's **Get Data → Excel** at the file and these sheets appear immediately as importable tables — no transformations needed.
+
+| Sheet | Grain | Use Case |
+|-------|-------|----------|
+| `PBI_Controls` | One row per control | Risk heatmap by application / D&I result |
+| `PBI_Deficiencies` | One row per CD/W | Deficiency tracker, severity breakdown |
+| `PBI_Evidence` | One row per evidence item | Evidence coverage view, alignment rate |
+
+Join the three tables on `Control_Name` (or `Control_Abbrev`) to build a full dashboard. The `D_I_Result` column (`Effective` / `Ineffective`) is pre-calculated for use in KPI cards.
 
 ## Setup
 
@@ -117,3 +133,22 @@ The tool runs as an interactive CLI wizard:
 python main.py --output my_workpaper.xlsx   # Custom output filename
 python main.py --api-key sk-ant-...         # Pass API key directly
 ```
+
+### Generate sample without an API key
+
+```bash
+python generate_sample.py
+# → sample_output/Acme_Corp_Oracle_EBS_ITGC_Workpaper_FY2025_SAMPLE.xlsx
+```
+
+## Privacy & Security
+
+> **This tool transmits evidence files (screenshots, documents, spreadsheets) to the Anthropic API for analysis.**
+>
+> Before use in a professional engagement context:
+>
+> 1. **Confirm your firm's AI data policy.** Most large firms have an approved AI gateway or internal LLM instance. Check whether you should substitute the `ANTHROPIC_API_KEY` for your firm's internal API credentials.
+> 2. **Redact PII and client-sensitive data** (employee names, IP addresses, account numbers) from evidence files before processing, unless your firm's policy explicitly permits transmission of that data to the selected API endpoint.
+> 3. **Never commit real client data to version control.** The `.gitignore` in this repository excludes all generated workpaper files (`*_ITGC_Workpaper_*.xlsx`) and the `.env` file containing your API key.
+>
+> This tool is designed and tested with synthetic data. Users are responsible for ensuring compliance with their firm's data privacy and confidentiality obligations before processing real client evidence.
