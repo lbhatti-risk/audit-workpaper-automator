@@ -26,7 +26,7 @@ Two sample workpapers are included, both generated from fully synthetic data:
 - Access Provisioning (New Starter) — 3 evidence items, 1 CD/W (missing SoD documentation)
 - Change Management — Code Changes — 3 evidence items, no deficiencies
 
-**[Sample 2 — IHG Hotels & Resorts / CyberArk PAM (.xlsx)](sample_output/IHG_Hotels_CyberArk_PAM_ITGC_Workpaper_FY2025_SAMPLE.xlsx)**
+**[Sample 2 — Client A / CyberArk PAM (.xlsx)](sample_output/Client_A_CyberArk_PAM_ITGC_Workpaper_FY2025_SAMPLE.xlsx)**
 - Privileged Access Management — 4 evidence items (EPV Safe membership, CyberArk access request workflow, PSM session log, CPM rotation dashboard), 1 CD/W (dormant contractor accounts not identified in quarterly Safe membership recertification)
 - Change Management — Configuration Changes — 4 evidence items (ServiceNow CR, CAB minutes, post-implementation review, emergency change), no deficiencies
 

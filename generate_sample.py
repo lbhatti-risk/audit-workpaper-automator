@@ -369,17 +369,17 @@ def _make_change_management() -> ITGCControl:
     return ctrl
 
 
-IHG_OUTPUT = "sample_output/IHG_Hotels_CyberArk_PAM_ITGC_Workpaper_FY2025_SAMPLE.xlsx"
+IHG_OUTPUT = "sample_output/Client_A_CyberArk_PAM_ITGC_Workpaper_FY2025_SAMPLE.xlsx"
 
 
 def _make_privileged_access_cyberark() -> ITGCControl:
     ctrl = ITGCControl(
         control_type=ControlType.PRIVILEGED_ACCESS,
-        application="CyberArk PAM (IHG Production Infrastructure)",
-        client_name="IHG Hotels & Resorts",
+        application="CyberArk PAM",
+        client_name="Client A",
         audit_period="FY2025",
         process_description=(
-            "All privileged access to IHG's production infrastructure — including servers, databases, "
+            "All privileged access to the client's production infrastructure — including servers, databases, "
             "and network devices — is managed through CyberArk Privileged Access Management (PAM). "
             "Privileged account credentials are stored in the CyberArk Enterprise Password Vault (EPV) "
             "and are never disclosed to end users in plain text. When a member of IT Operations or the "
@@ -596,10 +596,10 @@ def _make_privileged_access_cyberark() -> ITGCControl:
             description=(
                 "The Q4 2024 CyberArk Safe membership recertification, signed off by the CISO on "
                 "10 January 2025, failed to identify three privileged accounts belonging to contractors "
-                "whose engagements with IHG Hotels & Resorts had ended between August and October 2024 "
+                "whose engagements with Client A had ended between August and October 2024 "
                 "(svc_CTR_jenkins, svc_CTR_deploy, A.Patel_admin). These accounts remain active and "
                 "vaulted in the CyberArk EPV up to five months after the contractors' departures, "
-                "representing a risk of unauthorised privileged access to IHG production systems. "
+                "representing a risk of unauthorised privileged access to client production systems. "
                 "The stated process requires the quarterly review to identify and remove accounts "
                 "that are no longer required; the evidence indicates this did not occur for the "
                 "above accounts."
@@ -610,7 +610,7 @@ def _make_privileged_access_cyberark() -> ITGCControl:
     ]
 
     ctrl.conclusion = (
-        "Based on the evidence reviewed, the privileged access management control for IHG Hotels & "
+        "Based on the evidence reviewed, the privileged access management control for Client A "
         "Resorts, operated through CyberArk PAM, is substantially designed and implemented in "
         "accordance with the stated process. The CyberArk architecture — comprising EPV vaulting, "
         "PSM session recording, and CPM automatic credential rotation — provides a strong technical "
@@ -628,12 +628,12 @@ def _make_privileged_access_cyberark() -> ITGCControl:
 def _make_change_management_config_ihg() -> ITGCControl:
     ctrl = ITGCControl(
         control_type=ControlType.CHANGE_MANAGEMENT_CONFIG,
-        application="CyberArk PAM (IHG Production Infrastructure)",
-        client_name="IHG Hotels & Resorts",
+        application="CyberArk PAM",
+        client_name="Client A",
         audit_period="FY2025",
         process_description=(
-            "Configuration changes to CyberArk PAM and IHG's production infrastructure are managed "
-            "through the IHG ServiceNow Change Management platform. All changes must have a Change "
+            "Configuration changes to CyberArk PAM and the client's production infrastructure are managed "
+            "through the the client ServiceNow Change Management platform. All changes must have a Change "
             "Request (CR) raised in ServiceNow, including a technical specification, risk assessment, "
             "and a tested rollback plan. Standard changes — pre-approved routine tasks on the approved "
             "standard change catalogue — may be implemented without CAB approval but require a "
@@ -643,7 +643,7 @@ def _make_change_management_config_ihg() -> ITGCControl:
             "Security leadership team outside the CAB cycle, but retrospective CAB approval must be "
             "documented within 3 business days. All production configuration changes are implemented "
             "within approved change windows (Saturday 22:00–02:00 or Sunday 14:00–18:00 UTC) by the "
-            "IHG Infrastructure team. Members of the Security Engineering team who design changes "
+            "Infrastructure team. Members of the Security Engineering team who design changes "
             "do not have the ability to implement those changes in production."
         ),
     )
@@ -685,7 +685,7 @@ def _make_change_management_config_ihg() -> ITGCControl:
             order=2,
             hint="CAB meeting minutes — 22 January 2025",
             description=(
-                "The PDF document contains the signed minutes of the IHG Change Advisory Board meeting "
+                "The PDF document contains the signed minutes of the Change Advisory Board meeting "
                 "held on 22 January 2025. Agenda item 3 records the review and approval of CHG0031847 "
                 "(CyberArk v14.2 upgrade). The minutes note that the CAB reviewed the technical "
                 "specification and rollback plan, and confirmed the risk rating as appropriate. "
@@ -773,7 +773,7 @@ def _make_change_management_config_ihg() -> ITGCControl:
         for i, (proc, response, ev_ref, gap) in enumerate([
             (
                 procedures[0],
-                "The IHG Change Management Policy (v4.1, approved March 2024) was obtained and "
+                "The Change Management Policy (v4.1, approved March 2024) was obtained and "
                 "inspected. The policy covers configuration changes to production infrastructure, "
                 "including CyberArk PAM, and defines the Standard, Normal, and Emergency change "
                 "classifications, approval requirements, and permitted change windows.",
@@ -784,7 +784,7 @@ def _make_change_management_config_ihg() -> ITGCControl:
                 procedures[1],
                 "Management provided the population of 89 configuration changes implemented during "
                 "FY2025, extracted from ServiceNow. Completeness was agreed to the ServiceNow change "
-                "report filtered for IHG production infrastructure CRs with status 'Closed — "
+                "report filtered for client production infrastructure CRs with status 'Closed — "
                 "Successful' or 'Closed — Unsuccessful'.",
                 "Not evidenced (population obtained from management via ServiceNow export)",
                 False,
@@ -822,7 +822,7 @@ def _make_change_management_config_ihg() -> ITGCControl:
             ),
             (
                 procedures[5],
-                "The IHG ServiceNow change log and CPM connectivity alert log are reviewed by the "
+                "The the client ServiceNow change log and CPM connectivity alert log are reviewed by the "
                 "Change Manager on a weekly basis, as confirmed by management. Evidence of the weekly "
                 "log review was not provided as part of this sample; management indicated this review "
                 "is performed informally without a documented sign-off.",
@@ -846,7 +846,7 @@ def _make_change_management_config_ihg() -> ITGCControl:
 
     ctrl.conclusion = (
         "Based on the evidence reviewed, the change management (configuration) control for CyberArk "
-        "PAM and IHG Hotels & Resorts' production infrastructure is effectively designed and "
+        "PAM and Client A' production infrastructure is effectively designed and "
         "implemented in accordance with the stated process. Configuration changes are formally "
         "requested in ServiceNow with appropriate documentation, subject to CAB approval prior to "
         "implementation, deployed within approved change windows by engineers separate from the "
@@ -871,7 +871,7 @@ if __name__ == "__main__":
     generate_workpaper(controls_oracle, OUTPUT)
     print(f"Generated: {OUTPUT}")
 
-    # Sample 2: IHG Hotels & Resorts — CyberArk PAM focus
+    # Sample 2: Client A — CyberArk PAM focus
     controls_ihg = [
         _make_privileged_access_cyberark(),
         _make_change_management_config_ihg(),
