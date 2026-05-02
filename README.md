@@ -18,7 +18,15 @@ For each ITGC control you review, the tool will:
 
 ## Sample output
 
-A sample workpaper generated from **fully synthetic data** (Acme Corporation / Oracle EBS) is in [`sample_output/`](sample_output/). Open it to see what the generated workpaper looks like before running the tool.
+A sample workpaper generated from **fully synthetic data** (Acme Corporation / Oracle EBS) is included in the repository.
+
+**[Download sample workpaper (.xlsx)](sample_output/Acme_Corp_Oracle_EBS_ITGC_Workpaper_FY2025_SAMPLE.xlsx)**
+
+The sample covers two controls:
+- **Access Provisioning (New Starter)** — 3 evidence items, 1 control deficiency raised (CD/W-1: missing SoD documentation)
+- **Change Management — Code Changes** — 3 evidence items, no deficiencies
+
+Each sheet includes all five sections (Tailored Procedures, Process Description, Evidence Analysis, Control Deficiencies, Conclusion) plus the three Power BI flat-table sheets (`PBI_Controls`, `PBI_Deficiencies`, `PBI_Evidence`).
 
 ## Supported ITGC Controls
 
