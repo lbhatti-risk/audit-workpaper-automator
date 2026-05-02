@@ -39,6 +39,12 @@ The three Power BI-ready sheets in every workpaper (`PBI_Controls`, `PBI_Deficie
 
 *Built from the included synthetic sample data. All client references are anonymised.*
 
+## CLI in action
+
+![CLI demo — Privileged Access Management mid-run](media/cli_demo.png)
+
+*Selecting controls, pasting the process description, dropping in four CyberArk evidence files, and watching Claude analyse each one. The gap analysis flags a deficiency in under a minute.*
+
 ## Sample output
 
 Two sample workpapers are included, both generated from fully synthetic data:
