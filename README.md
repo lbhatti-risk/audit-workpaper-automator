@@ -20,13 +20,17 @@ For each ITGC control you review, the tool will:
 
 A sample workpaper generated from **fully synthetic data** (Acme Corporation / Oracle EBS) is included in the repository.
 
-**[Download sample workpaper (.xlsx)](sample_output/Acme_Corp_Oracle_EBS_ITGC_Workpaper_FY2025_SAMPLE.xlsx)**
+Two sample workpapers are included, both generated from fully synthetic data:
 
-The sample covers two controls:
-- **Access Provisioning (New Starter)** — 3 evidence items, 1 control deficiency raised (CD/W-1: missing SoD documentation)
-- **Change Management — Code Changes** — 3 evidence items, no deficiencies
+**[Sample 1 — Acme Corporation / Oracle EBS (.xlsx)](sample_output/Acme_Corp_Oracle_EBS_ITGC_Workpaper_FY2025_SAMPLE.xlsx)**
+- Access Provisioning (New Starter) — 3 evidence items, 1 CD/W (missing SoD documentation)
+- Change Management — Code Changes — 3 evidence items, no deficiencies
 
-Each sheet includes all five sections (Tailored Procedures, Process Description, Evidence Analysis, Control Deficiencies, Conclusion) plus the three Power BI flat-table sheets (`PBI_Controls`, `PBI_Deficiencies`, `PBI_Evidence`).
+**[Sample 2 — IHG Hotels & Resorts / CyberArk PAM (.xlsx)](sample_output/IHG_Hotels_CyberArk_PAM_ITGC_Workpaper_FY2025_SAMPLE.xlsx)**
+- Privileged Access Management — 4 evidence items (EPV Safe membership, CyberArk access request workflow, PSM session log, CPM rotation dashboard), 1 CD/W (dormant contractor accounts not identified in quarterly Safe membership recertification)
+- Change Management — Configuration Changes — 4 evidence items (ServiceNow CR, CAB minutes, post-implementation review, emergency change), no deficiencies
+
+Each workpaper includes all five sections per control tab (Tailored Procedures, Process Description, Evidence Analysis, Control Deficiencies, Conclusion) plus three Power BI flat-table sheets (`PBI_Controls`, `PBI_Deficiencies`, `PBI_Evidence`).
 
 ## Supported ITGC Controls
 
