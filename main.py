@@ -177,6 +177,11 @@ def main(output: str, api_key: str):
     click.echo(f"  Controls documented:      {len(controls)}")
     click.echo(f"  Evidence files analysed:  {sum(len(c.evidence_items) for c in controls)}")
     click.echo(f"  Control deficiencies:     {total_cds}")
+    click.echo()
+    click.echo("  ⚠  AUDITOR REVIEW REQUIRED")
+    click.echo("  All AI-generated content is a draft. Before sign-off,")
+    click.echo("  verify each evidence description, gap finding, and CD/W")
+    click.echo("  against the source files and apply professional judgement.")
     click.echo("=" * 60)
     click.echo()
 
